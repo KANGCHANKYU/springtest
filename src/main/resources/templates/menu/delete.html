@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>delete</title>
+</head>
+<body>
+  <h2 align="center">삭제입니당</h2>
+  <table border="1" align="center">
+    <tr>
+      <th>메뉴번호</th>
+      <th>메뉴이름</th>
+      <th>메뉴가격</th>
+      <th>카테고리코드</th>
+      <th>판매상태</th>
+      <th>삭제</th>
+    </tr>
+    <tr th:each="menu : ${menu}" class="info">
+      <td class="menuCode" th:text="${menu.getMenuCode()}"></td>
+      <td th:text="${menu.getMenuName()}"></td>
+      <td th:text="${menu.getMenuPrice()}"></td>
+      <td th:text="${menu.getCategoryCode()}"></td>
+      <td th:text="${menu.getOrderableStatus()}"></td>
+      <td><button class="delete">삭제</button></td>
+    </tr>
+  </table>
+  <script>
+    let deleteClick = document.getElementsByClassName("delete");
+    let code = 0;
+    for(let i = 0 ; i < deleteClick.length; i++)
+    {
+      deleteClick[i].addEventListener("click", function ()
+      {
+        code = document.getElementsByClassName("menuCode")[i];
+        Delete(code.innerHTML);
+        console.log(code.innerHTML)
+      });
+    }
+    function Delete(code)
+    {
+      fetch("/menu/delete?menuCode=" + code, {
+        method: 'POST',
+        headers:
+                {
+                  'Content-Type': 'application/json'
+                },
+      }).catch(error => console.error('에러 발생:', error));
+    }
+  </script>
+
+
+
+</body>
+</html>
